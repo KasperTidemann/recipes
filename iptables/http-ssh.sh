@@ -27,3 +27,6 @@ iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
 
 # DDoS:
 iptables -A INPUT -p tcp --dport 80 -m limit --limit 100/minute --limit-burst 100 -j ACCEPT
+
+# Save:
+iptables-save
