@@ -1,0 +1,26 @@
+server {
+  listen 80;
+
+  root /var/www/some_directory;
+  index index.php index.html index.htm;
+
+  server_name some_domain;
+
+  access_log /var/log/nginx/some_domain.access.log;
+  error_log /var/log/nginx/some_domain.error.log;
+
+  location / {
+    try_files $uri $uri/ /index.php?q=$uri&$args;
+  }
+
+  location ~ \.php$ {
+    fastcgi_pass unix:/var/run/php5-fpm.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+  }
+
+  location ~/\.ht {
+    deny all;
+  }
+}
