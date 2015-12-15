@@ -22,11 +22,15 @@ iptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCE
 iptables -A INPUT -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp --dport 8000 -m state --state NEW,ESTABLISHED -j ACCEPT
 
+# Incoming HTTPS:
+iptables -A INPUT -i eth0 -p tcp --dport 443 -m state --state NEW,ESTABLISHED -j ACCEPT
+
 # Outgoing ping:
 iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
 
 # DDoS:
 iptables -A INPUT -p tcp --dport 80 -m limit --limit 100/minute --limit-burst 100 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -m limit --limit 100/minute --limit-burst 100 -j ACCEPT
 
 # Save:
 iptables-save
